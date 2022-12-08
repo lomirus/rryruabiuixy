@@ -1,7 +1,3 @@
-<script lang="ts" setup>
-import { RouterLink } from 'vue-router';
-</script>
-
 <template>
     <section>
         <RouterLink to="/post/1">在英语短句中都是作形容词使用,可以用来形容人的情绪</RouterLink>

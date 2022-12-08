@@ -1,13 +1,36 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 
+type LoginState = 'unknown' | 'guest' | 'member'
+
+let loginState = ref<LoginState>('unknown');
+
+const username = localStorage.getItem('username');
+const password = localStorage.getItem('password');
+
+if (username && password) {
+    loginState = ref('member')
+} else {
+    loginState = ref('guest')
+}
+
+function signOut() {
+    localStorage.removeItem('username');
+    localStorage.removeItem('password');
+    location.reload();
+}
 </script>
 
 <template>
     <header>
         <RouterLink to="/" class="index button">首页</RouterLink>
-        <div class="user">
-            <span class="username button">Admin</span>
-            <span class="sign-out button">Sign Out</span>
+
+        <div class="user" v-if="(loginState === 'member')">
+            <span class="username button">{{ username }}</span>
+            <span class="sign-out button" @click="signOut">Sign Out</span>
+        </div>
+        <div class="user" v-else-if="(loginState === 'guest')">
+            <RouterLink to="/login" class="login button">Login</RouterLink>
         </div>
     </header>
 </template>
@@ -40,6 +63,7 @@ header {
     .user {
         display: flex;
         column-gap: 12px;
+
         .username:hover {
             cursor: default;
             background-color: rgba(0, 0, 0, .2);
@@ -50,6 +74,16 @@ header {
 
             &:hover {
                 background-color: rgba(255, 0, 0, .2);
+            }
+        }
+
+        .login {
+            cursor: pointer;
+            text-decoration: none;
+            color: #000;
+
+            &:hover {
+                background-color: rgba(0, 0, 255, .2);
             }
         }
     }

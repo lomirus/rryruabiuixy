@@ -1,17 +1,6 @@
 <script setup lang="ts">
 import PostPreview from '../components/PostPreview.vue';
-import { RouterLink } from 'vue-router';
-// import { useRouter } from 'vue-router'
-
-// const username = localStorage.getItem('username');
-// const password = localStorage.getItem('password');
-
-// if (username && password) {
-//     // fetch feed stream...
-// } else {
-//     const router = useRouter();
-//     router.replace('/login')
-// }
+import { checkLogin } from '../utils';
 </script>
 
 <template>
@@ -21,7 +10,7 @@ import { RouterLink } from 'vue-router';
         <PostPreview></PostPreview>
         <PostPreview></PostPreview>
     </div>
-    <RouterLink to="/new" class="new-post">New Post</RouterLink>
+    <RouterLink to="/new" class="new-post" v-if="checkLogin()">New Post</RouterLink>
 </template>
 
 <style lang="less">

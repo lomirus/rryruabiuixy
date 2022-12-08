@@ -1,4 +1,12 @@
 <script lang="ts" setup>
+import { checkLogin } from '../utils';
+import { useRouter } from 'vue-router'
+
+if (!checkLogin()) {
+    const router = useRouter();
+    router.replace('/')
+}
+
 function submit() {
     alert("还没写完")
 }
@@ -17,11 +25,14 @@ function submit() {
 main {
     display: flex;
     flex-direction: column;
+    margin:auto;
+    height: calc(100vh - 80px);
 
     input {}
 
     textarea {
-        resize: vertical;
+        resize: none;
+        height: 200px
     }
 }
 
