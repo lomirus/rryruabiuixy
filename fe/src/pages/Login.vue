@@ -4,7 +4,7 @@ function register() {
 }
 
 function login() {
-    console.log('login')
+    
 }
 </script>
 
@@ -30,7 +30,7 @@ main {
     align-items: center;
     justify-content: center;
     margin: 20vh auto;
-    width: 800px;
+    width: 640px;
     padding: 48px 0;
     border-radius: 24px;
     box-shadow: rgba(0, 0, 0, 0.2) 0 0 30px;
@@ -40,7 +40,7 @@ main {
     display: grid;
     grid-template-columns: 100px 1fr;
     row-gap: 8px;
-    width: 640px;
+    width: 480px;
 
     input {
         height: 24px;
