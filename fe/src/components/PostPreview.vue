@@ -1,11 +1,12 @@
-<script>
+<script lang="ts" setup>
+import { RouterLink } from 'vue-router';
 </script>
 
 <template>
     <section>
-        <a href="#">在英语短句中都是作形容词使用,可以用来形容人的情绪</a>
+        <RouterLink to="/post/1">在英语短句中都是作形容词使用,可以用来形容人的情绪</RouterLink>
         <div class="info">
-            <span>Admin</span>
+            <span class="op">Admin</span>
             <span class="time">2022-12-08 14:51</span>
         </div>
     </section>
@@ -18,17 +19,29 @@ section {
     padding: 20px 36px;
     display: flex;
     flex-direction: column;
+    row-gap: 6px;
+
     a {
         text-decoration: none;
-        color: black
+        color: #32363a;
+
+        &:hover {
+            text-decoration: underline;
+        }
     }
+
     .info {
         display: flex;
         column-gap: 12px;
+
+        .op {
+            font-weight: bold;
+            color: #778087;
+        }
+
         .time {
-            color: rgba(0, 0, 0, 0.5);
+            color: #ccc;
         }
     }
 }
-
 </style>

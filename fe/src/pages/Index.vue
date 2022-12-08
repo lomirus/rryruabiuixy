@@ -32,7 +32,7 @@ import PostPreview from '../components/PostPreview.vue';
 
     box-shadow: rgba(0, 0, 0, 0.2) 0 0 12px;
     border-radius: 12px;
-    width: 720px;
+    width: 800px;
     section:not(:last-child) {
         border-bottom: solid rgba(0, 0, 0, 0.2) 1px;
     }
