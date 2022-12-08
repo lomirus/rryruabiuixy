@@ -1,0 +1,10 @@
+{
+    "fmt": {
+        "files": {
+            "exclude": ["*.md"]
+        },
+        "options": {
+            "indentWidth": 4
+        }
+    }
+}
