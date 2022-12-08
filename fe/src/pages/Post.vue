@@ -6,6 +6,10 @@ const route = useRoute();
 const id = parseInt(route.path.split('/')[2])
 
 // id 后面用
+
+function comment() {
+    alert('这个功能还没写完')
+}
 </script>
 
 <template>
@@ -26,6 +30,10 @@ const id = parseInt(route.path.split('/')[2])
             <Comment></Comment>
             <Comment></Comment>
             <Comment></Comment>
+        </div>
+        <div class="input">
+            <textarea placeholder="Input your comment here..."></textarea>
+            <button @click="comment">发 送</button>
         </div>
     </main>
 
@@ -78,6 +86,35 @@ main {
 
         section:not(:last-child) {
             border-bottom: solid rgba(0, 0, 0, 0.2) 1px;
+        }
+    }
+
+    .input {
+        width: 800px;
+        height: 120px;
+        box-shadow: rgba(0, 0, 0, 0.2) 0 0 12px;
+        border-radius: 12px;
+        display: flex;
+        column-gap: 2px;
+
+        textarea {
+            resize: none;
+            border: none;
+            box-sizing: border-box;
+            padding: 12px 18px;
+            border-radius: 12px 0 0 12px;
+            height: 100%;
+            width: 700px;
+        }
+
+        button {
+            width: 98px;
+            height: 100%;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            writing-mode: vertical-lr;
+            border-radius: 0 12px 12px 0;
         }
     }
 }
