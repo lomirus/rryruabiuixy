@@ -1,4 +1,5 @@
 import { Application } from "oak";
+import "./db/mod.ts";
 
 import { cors, services } from "./middlewares/index.ts";
 

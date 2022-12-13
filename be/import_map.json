@@ -1,5 +1,6 @@
 {
     "imports": {
-      "oak": "https://deno.land/x/oak@v11.0.0/mod.ts"
+      "oak": "https://deno.land/x/oak@v11.1.0/mod.ts",
+      "mysql": "https://deno.land/x/mysql@v2.11.0/mod.ts"
     }
   }
