@@ -1,10 +1,10 @@
-import { Application } from "https://deno.land/x/oak@v9.0.0/mod.ts";
+import { Application } from "oak";
 
-import { root, services } from "./middlewares/index.ts";
+import { cors, services } from "./middlewares/index.ts";
 
 const app = new Application();
 
-app.use(root);
+app.use(cors);
 app.use(services);
 
 app.addEventListener("listen", ({ hostname, port }) => {
