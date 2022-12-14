@@ -3,14 +3,20 @@ import { onMounted, reactive, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import Comment from '../components/Comment.vue'
 import { BASE_URL } from '../config';
+import postComment from '../services/comment';
 import { Post, Res } from '../types';
 
 const route = useRoute();
 const postId = parseInt(route.path.split('/')[2])
 
+let comment = '';
+
 let post = reactive<Post>({
     title: '',
-    content: ''
+    content: '',
+    poster: '',
+    created_at: '',
+    comments: []
 })
 
 onMounted(async () => {
@@ -18,16 +24,24 @@ onMounted(async () => {
     const data = await res.json() as Res<Post>;
 
     if (data.status) {
-        console.log(data.data)
         post.title = data.data.title;
         post.content = data.data.content;
+        post.poster = data.data.poster;
+        post.created_at = data.data.created_at;
+        post.comments = data.data.comments;
+        console.log(data.data.comments)
     } else {
         alert(`Failed to fetch /post/${postId}: ${data.info}`)
     }
 })
 
-function comment() {
-    alert('这个功能还没写完')
+async function handleComment() {
+    const res = await postComment(postId, comment);
+    if (res.status) {
+        location.reload()
+    } else {
+        alert(res.info)
+    }
 }
 </script>
 
@@ -36,24 +50,20 @@ function comment() {
         <div class="post">
             <p class="title">{{ post.title }}</p>
             <div class="info">
-                <span class="op">Admin</span>
-                <span class="time">2022-12-08 14:51</span>
+                <span class="op">{{ post.poster }}</span>
+                <span class="time">{{ post.created_at }}</span>
             </div>
             <p class="content">{{ post.content }}</p>
         </div>
         <div class="comments">
-            <Comment></Comment>
-            <Comment></Comment>
-            <Comment></Comment>
-            <Comment></Comment>
-            <Comment></Comment>
+            <Comment v-for="comment in post.comments" :op="comment.poster" :time="comment.created_at"
+                :content="comment.content" />
         </div>
         <div class="input">
-            <textarea placeholder="Input your comment here..."></textarea>
-            <button @click="comment">发 送</button>
+            <textarea placeholder="Input your comment here..." v-model="comment"></textarea>
+            <button @click="handleComment">发 送</button>
         </div>
     </main>
-
 </template>
 
 <style lang="less">
@@ -88,6 +98,7 @@ main {
         .content {
             margin: 0;
             color: #444;
+            white-space: pre-wrap;
         }
     }
 

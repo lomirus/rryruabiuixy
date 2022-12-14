@@ -5,9 +5,13 @@ export type Res<T = undefined> = {
 }
 
 export type Post = {
-    id: number,
     title: string,
     content: string,
-    poster_id: number,
-    created_at: string
+    created_at: string,
+    poster: string,
+    comments: {
+        content: string,
+        created_at: string,
+        poster: string
+    }[]
 }

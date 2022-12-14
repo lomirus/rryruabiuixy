@@ -1,6 +1,8 @@
 import { Context, RouterContext } from "oak";
+
 import client from "../db/mod.ts";
-import { Post, User } from "../types/mod.ts";
+import { Comment, Post, User } from "../types/mod.ts";
+import { getUsernameFromId } from "../utils/mod.ts"
 
 export async function postPost(ctx: Context) {
     const result = ctx.request.body({ type: 'json' });
@@ -47,10 +49,27 @@ export async function getPost(ctx: RouterContext<'/api/post/:id'>) {
     ))[0];
 
     if (post) {
+        const posterUsername: string = await getUsernameFromId(post.poster_id)
+
+        const comments: Comment[] = await client.query(
+            "SELECT * FROM comments WHERE post_id=?",
+            [post.id],
+        )
+
         ctx.response.body = {
             status: true,
             info: 'Success',
-            data: post
+            data: {
+                title: post.title,
+                content: post.content,
+                created_at: post.created_at,
+                poster: posterUsername,
+                comments: await Promise.all(comments.map(async comment => ({
+                    content: comment.content,
+                    created_at: comment.created_at,
+                    poster: await getUsernameFromId(comment.poster_id),
+                })))
+            }
         };
     } else {
         ctx.response.body = {

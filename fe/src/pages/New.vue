@@ -1,8 +1,7 @@
 <script lang="ts" setup>
 import { checkLogin } from '../utils';
 import { useRouter } from 'vue-router'
-import { BASE_URL } from '../config';
-import { Res } from '../types';
+import postPost from '../services/post';
 
 const router = useRouter();
 
@@ -14,18 +13,7 @@ if (!checkLogin()) {
 }
 
 async function submit() {
-    const username = localStorage.getItem('username');
-    const password = localStorage.getItem('password');
-    const res = await fetch(`${BASE_URL}/api/post`, {
-        method: 'POST',
-        body: JSON.stringify({
-            username,
-            password,
-            title,
-            content
-        })
-    })
-    const data = await res.json() as Res<number>;
+    const data = await postPost(title, content);
 
     if (data.status) {
         router.replace(`/post/${data.data}`)
