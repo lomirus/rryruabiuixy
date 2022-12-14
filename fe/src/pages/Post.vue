@@ -1,11 +1,30 @@
 <script lang="ts" setup>
+import { onMounted, reactive, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import Comment from '../components/Comment.vue'
+import { BASE_URL } from '../config';
+import { Post, Res } from '../types';
 
 const route = useRoute();
-const id = parseInt(route.path.split('/')[2])
+const postId = parseInt(route.path.split('/')[2])
 
-// id 后面用
+let post = reactive<Post>({
+    title: '',
+    content: ''
+})
+
+onMounted(async () => {
+    const res = await fetch(`${BASE_URL}/api/post/${postId}`)
+    const data = await res.json() as Res<Post>;
+
+    if (data.status) {
+        console.log(data.data)
+        post.title = data.data.title;
+        post.content = data.data.content;
+    } else {
+        alert(`Failed to fetch /post/${postId}: ${data.info}`)
+    }
+})
 
 function comment() {
     alert('这个功能还没写完')
@@ -15,14 +34,12 @@ function comment() {
 <template>
     <main>
         <div class="post">
-            <p class="title">在英语短句中都是作形容词使用,可以用来形容人的情绪</p>
+            <p class="title">{{ post.title }}</p>
             <div class="info">
                 <span class="op">Admin</span>
                 <span class="time">2022-12-08 14:51</span>
             </div>
-            <p class="content">ASD(Autism Spectrum
-                Disorder)孤独症谱系障碍,是一系列复杂的神经发展障碍性疾病，能影响孩子的社交，行为和交流方面的能力。有孤独症谱系障碍的人，其大脑处理信息的方式异于常人。孤独症谱系障碍共有三类：自闭症（或典型自闭症），阿斯伯格综合征和待分类的广泛性发展障碍（PDD-NOS）。
-            </p>
+            <p class="content">{{ post.content }}</p>
         </div>
         <div class="comments">
             <Comment></Comment>

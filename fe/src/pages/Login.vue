@@ -1,12 +1,28 @@
 <script setup lang="ts">
+import { BASE_URL } from '../config';
+import { Res } from '../types';
+
 let username = '';
 let password = '';
 
-function register() {
-    console.log('register')
+async function register() {
+    const res = await fetch(`${BASE_URL}/api/register`, {
+        method: 'POST',
+        body: JSON.stringify({
+            username,
+            password
+        })
+    })
+    const data = await res.json() as Res;
+
+    if (data.status) {
+        alert('Registered Successfully')
+    } else {
+        alert(`Failed to register: ${data.info}`)
+    }
 }
 
-function login() {
+async function login() {
     if (!username) {
         alert('用户名不能为空')
         return;
@@ -15,9 +31,23 @@ function login() {
         alert('密码不能为空')
         return;
     }
-    localStorage.setItem('username', username);
-    localStorage.setItem('password', password);
-    location.replace('/')
+
+    const res = await fetch(`${BASE_URL}/api/login`, {
+        method: 'POST',
+        body: JSON.stringify({
+            username,
+            password
+        })
+    })
+    const data = await res.json() as Res;
+
+    if (data.status) {
+        localStorage.setItem('username', username);
+        localStorage.setItem('password', password);
+        location.replace('/')
+    } else {
+        alert(`Failed to login: ${data.info}`)
+    }
 }
 </script>
 
