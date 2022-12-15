@@ -1,14 +1,23 @@
 <script setup lang="ts">
+import { onMounted, reactive, ref } from 'vue';
+
 import PostPreview from '../components/PostPreview.vue';
+import getPosts from '../services/posts';
 import { checkLogin } from '../utils';
+import { PostPreviewType } from '../types'
+
+let previews = ref<PostPreviewType[]>([])
+
+onMounted(async () => {
+    const { data } = await getPosts();
+    previews.value = data
+})
 </script>
 
 <template>
     <div class="list">
-        <PostPreview></PostPreview>
-        <PostPreview></PostPreview>
-        <PostPreview></PostPreview>
-        <PostPreview></PostPreview>
+        <PostPreview v-for="preview in previews" :title="preview.title" :op="preview.poster" :time="preview.created_at" :id="preview.id">
+        </PostPreview>
     </div>
     <RouterLink to="/new" class="new-post" v-if="checkLogin()">New Post</RouterLink>
 </template>

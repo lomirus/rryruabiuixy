@@ -1,9 +1,32 @@
+<script lang="ts" setup>
+import { formatTimeStamp } from '../utils'
+
+defineProps({
+    op: {
+        type: String,
+        required: true
+    },
+    time: {
+        type: Number,
+        required: true
+    },
+    title: {
+        type: String,
+        required: true
+    },
+    id: {
+        type: Number,
+        required: true
+    }
+})
+</script>
+
 <template>
     <section>
-        <RouterLink to="/post/1">在英语短句中都是作形容词使用,可以用来形容人的情绪</RouterLink>
+        <RouterLink :to="`/post/${id}`">{{ title }}</RouterLink>
         <div class="info">
-            <span class="op">Admin</span>
-            <span class="time">2022-12-08 14:51</span>
+            <span class="op">{{ op }}</span>
+            <span class="time">{{ formatTimeStamp(time) }}</span>
         </div>
     </section>
 </template>

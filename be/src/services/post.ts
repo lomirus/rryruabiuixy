@@ -62,11 +62,11 @@ export async function getPost(ctx: RouterContext<'/api/post/:id'>) {
             data: {
                 title: post.title,
                 content: post.content,
-                created_at: post.created_at,
+                created_at: post.created_at.getTime(),
                 poster: posterUsername,
                 comments: await Promise.all(comments.map(async comment => ({
                     content: comment.content,
-                    created_at: comment.created_at,
+                    created_at: comment.created_at.getTime(),
                     poster: await getUsernameFromId(comment.poster_id),
                 })))
             }

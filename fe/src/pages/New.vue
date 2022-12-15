@@ -2,15 +2,18 @@
 import { checkLogin } from '../utils';
 import { useRouter } from 'vue-router'
 import postPost from '../services/post';
+import { onMounted } from 'vue';
 
 const router = useRouter();
 
 let title = '';
 let content = '';
 
-if (!checkLogin()) {
-    router.replace('/')
-}
+onMounted(() => {
+    if (!checkLogin()) {
+        router.replace('/')
+    }
+})
 
 async function submit() {
     const data = await postPost(title, content);

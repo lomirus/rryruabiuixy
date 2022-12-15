@@ -1,11 +1,12 @@
 <script setup lang="ts">
+import { formatTimeStamp } from '../utils'
 defineProps({
     op: {
         type: String,
         required: true
     },
     time: {
-        type: String,
+        type: Number,
         required: true
     },
     content: {
@@ -19,7 +20,7 @@ defineProps({
     <section>
         <div class="info">
             <span class="op">{{ op }}</span>
-            <span class="time">{{ time }}</span>
+            <span class="time">{{ formatTimeStamp(time) }}</span>
         </div>
         <p class="content">{{ content }}</p>
     </section>

@@ -1,21 +1,22 @@
 <script lang="ts" setup>
-import { onMounted, reactive, ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import Comment from '../components/Comment.vue'
 import { BASE_URL } from '../config';
 import postComment from '../services/comment';
 import { Post, Res } from '../types';
+import { formatTimeStamp } from '../utils';
 
 const route = useRoute();
 const postId = parseInt(route.path.split('/')[2])
 
 let comment = '';
 
-let post = reactive<Post>({
+let post = ref<Post>({
     title: '',
     content: '',
     poster: '',
-    created_at: '',
+    created_at: 0,
     comments: []
 })
 
@@ -24,12 +25,7 @@ onMounted(async () => {
     const data = await res.json() as Res<Post>;
 
     if (data.status) {
-        post.title = data.data.title;
-        post.content = data.data.content;
-        post.poster = data.data.poster;
-        post.created_at = data.data.created_at;
-        post.comments = data.data.comments;
-        console.log(data.data.comments)
+        post.value = data.data
     } else {
         alert(`Failed to fetch /post/${postId}: ${data.info}`)
     }
@@ -51,7 +47,7 @@ async function handleComment() {
             <p class="title">{{ post.title }}</p>
             <div class="info">
                 <span class="op">{{ post.poster }}</span>
-                <span class="time">{{ post.created_at }}</span>
+                <span class="time">{{ formatTimeStamp(post.created_at) }}</span>
             </div>
             <p class="content">{{ post.content }}</p>
         </div>
